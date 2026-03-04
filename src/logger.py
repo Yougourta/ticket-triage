@@ -1,9 +1,10 @@
 import logging
-from logging.handlers import RotatingFileHandler
-from config import LOG_LEVEL
 
-logger = logging.getLogger(__name__)
-logger
+from logging.handlers import RotatingFileHandler
+from .config import LOG_LEVEL
+
+logger = logging.getLogger()
+logger.setLevel(LOG_LEVEL)
 
 file_handler = RotatingFileHandler('ticket_triage.log', mode='a', encoding='utf-8', maxBytes=1024*1024, backupCount=5)
 formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(name)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
