@@ -8,7 +8,7 @@
         "type": "Bug",
         "ai_category": "Access",
         "ai_priority": "High",
-        "ai_summary": "User unable to login to portal; password reset email not received with payment due tonight",
+        "ai_summary": "Customer unable to login; password reset email not received with payment due tonight",
         "ai_escalate": true,
         "ai_confidence": 0.95,
         "ai_processed_at": "2026-03-03T08:30:00Z"
@@ -20,7 +20,7 @@
         "reporter": "jane.smith@company.com",
         "created_at": "2026-03-03T09:15:00Z",
         "type": "Support",
-        "ai_category": "Access",
+        "ai_category": "Billing",
         "ai_priority": "High",
         "ai_summary": "Customer needs to update delivery address before order ships tomorrow",
         "ai_escalate": true,
@@ -50,7 +50,7 @@
         "type": "Support",
         "ai_category": "Billing",
         "ai_priority": "High",
-        "ai_summary": "Invoice amount discrepancy: charged 150 EUR instead of 99 EUR",
+        "ai_summary": "Invoice overcharged at 150 EUR instead of contracted 99 EUR rate",
         "ai_escalate": true,
         "ai_confidence": 0.95,
         "ai_processed_at": "2026-03-03T11:30:00Z"
@@ -64,7 +64,7 @@
         "type": "Feature",
         "ai_category": "Other",
         "ai_priority": "Low",
-        "ai_summary": "Feature request for dark mode option in settings",
+        "ai_summary": "Feature request for dark mode option in application settings",
         "ai_escalate": false,
         "ai_confidence": 0.95,
         "ai_processed_at": "2026-03-03T14:00:00Z"

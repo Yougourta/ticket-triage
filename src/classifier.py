@@ -2,7 +2,7 @@ import json
 import anthropic
 
 from pydantic import ValidationError
-from .config import MODEL, MAX_TOKENS, INPUT_FILE, OUTPUT_FILE, LOG_LEVEL
+from .config import MODEL, MAX_TOKENS
 from .models import OriginalTicket, ClassifiedTicket
 from .logger import logger
 
@@ -84,10 +84,10 @@ def classify_ticket(ticket) -> OriginalTicket:
                 "ai_summary": "Unable to classify ticket",
                 "ai_escalate": False,
                 "ai_confidence": 0.0,
-                "processed_at": None
+                "ai_processed_at": None
             }
     except ValidationError as e:
         logger.error(f"Error validating ticket: {e}")
         logger.error(f"Raw ticket data: {ticket}")
-        return None
+        return dict | None
 
