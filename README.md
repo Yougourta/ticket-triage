@@ -7,7 +7,6 @@ Triage CLI takes a "tickets.json" of JIRA tickets, sends them to an AI agent for
 ticket-triage/
 ├── .env
 ├── .gitignore
-├── ticket_triage.log
 ├── requirements.txt
 ├── main.py
 ├── src/
