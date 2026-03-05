@@ -10,7 +10,7 @@
         "ai_priority": "High",
         "ai_summary": "User unable to login; password reset email not received, payment due tonight",
         "ai_escalate": true,
-        "ai_confidence": 0.95,
+        "ai_confidence": 0.92,
         "ai_processed_at": "2026-03-03T08:30:00Z"
     },
     {
@@ -22,9 +22,9 @@
         "type": "Support",
         "ai_category": "Access",
         "ai_priority": "High",
-        "ai_summary": "Customer needs to update delivery address before tomorrow's shipment",
+        "ai_summary": "User needs to update delivery address before order ships tomorrow",
         "ai_escalate": true,
-        "ai_confidence": 0.92,
+        "ai_confidence": 0.75,
         "ai_processed_at": "2026-03-03T09:15:00Z"
     },
     {
@@ -36,7 +36,7 @@
         "type": "Bug",
         "ai_category": "Technical",
         "ai_priority": "High",
-        "ai_summary": "Application crashes on login screen for 3 days, user threatens cancellation",
+        "ai_summary": "Application crashes on login screen for 3 days; user threatens subscription cancellation",
         "ai_escalate": true,
         "ai_confidence": 0.95,
         "ai_processed_at": "2026-03-03T10:00:00Z"
@@ -50,9 +50,9 @@
         "type": "Support",
         "ai_category": "Billing",
         "ai_priority": "High",
-        "ai_summary": "Invoice overcharge of 51 EUR needs correction",
+        "ai_summary": "Invoice amount discrepancy: charged 150 EUR instead of contracted 99 EUR",
         "ai_escalate": true,
-        "ai_confidence": 0.95,
+        "ai_confidence": 0.92,
         "ai_processed_at": "2026-03-03T11:30:00Z"
     },
     {
@@ -64,9 +64,9 @@
         "type": "Feature",
         "ai_category": "Other",
         "ai_priority": "Low",
-        "ai_summary": "User requests dark mode feature implementation",
+        "ai_summary": "User requesting dark mode feature implementation in application settings.",
         "ai_escalate": false,
-        "ai_confidence": 0.95,
+        "ai_confidence": 0.92,
         "ai_processed_at": "2026-03-03T14:00:00Z"
     }
 ]
