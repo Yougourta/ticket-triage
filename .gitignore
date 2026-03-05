@@ -4,3 +4,5 @@
 .venv/
 # Py cache
 __pycache__
+# Log files
+*.log
