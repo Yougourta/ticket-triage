@@ -5,7 +5,6 @@ Triage CLI takes a "tickets.json" of JIRA tickets, sends them to an AI agent for
 
 ## Architecture
 ticket-triage/
-<<<<<<< HEAD
 ├── .env
 ├── .gitignore
 ├── requirements.txt
@@ -21,24 +20,6 @@ ticket-triage/
 │   └── tickets.json
 └── output/
     └── classified_tickets.json
-=======
-    ├── .env
-    ├── .gitignore
-    ├── ticket_triage.log
-    ├── requirements.txt
-    ├── main.py
-    ├── src/
-    │   ├── __init__.py
-    │   ├── config.py
-    │   ├── logger.py
-    │   ├── models.py
-    │   ├── classifier.py
-    │   └── file_handler.py
-    ├── data/
-    │   └── tickets.json
-    └── output/
-        └── classified_tickets.json
->>>>>>> 0473a3714633338aad6c920997eeae90e661d315
 
 ## Setup
 1. Update the .env file with your Anthropic API_KEY

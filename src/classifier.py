@@ -1,5 +1,6 @@
 import json
 import anthropic
+import asyncio
 
 from pydantic import ValidationError
 from .config import MODEL, MAX_TOKENS
@@ -7,12 +8,12 @@ from .models import OriginalTicket, ClassifiedTicket
 from .logger import logger
 
 # Call the AI agent to classify the ticket
-def call_ai_agent(model, max_tokens, system_prompt, original_ticket):
+async def call_ai_agent(model, max_tokens, system_prompt, original_ticket):
     # Initialize the Anthropic client and send the classification request
-    client = anthropic.Anthropic()
+    client = anthropic.AsyncAnthropic()
     # Call the AI model to classify the ticket
     try:
-        message = client.messages.create(
+        message = await client.messages.create(
             model=model,
             max_tokens=max_tokens,
             system=system_prompt,
@@ -33,7 +34,7 @@ def call_ai_agent(model, max_tokens, system_prompt, original_ticket):
         return "{}"
     
 # Validate the JIRA tickets
-def classify_ticket(ticket) -> OriginalTicket:
+async def classify_ticket(ticket) -> OriginalTicket:
     system_prompt = """
         You are a support ticket classification agent.
         Analyze the ticket and return ONLY a valid JSON object with no markdown.
@@ -57,7 +58,7 @@ def classify_ticket(ticket) -> OriginalTicket:
         original_ticket = OriginalTicket(**ticket)
 
         # Call the AI model to classify the ticket
-        classified_ticket = call_ai_agent(MODEL, MAX_TOKENS, system_prompt, original_ticket)
+        classified_ticket = await call_ai_agent(MODEL, MAX_TOKENS, system_prompt, original_ticket)
         try:
             # Parse the AI response and combine it with the original ticket data
             classified_ticket = json.loads(classified_ticket)
