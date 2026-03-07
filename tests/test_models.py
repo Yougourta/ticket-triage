@@ -1,7 +1,7 @@
 import pytest
 
 from pydantic import ValidationError
-from src.models import OriginalTicket, ClassifiedTicket
+from src.models import OriginalTicket
 
 def test_valid_original_ticket():
     ticket = OriginalTicket(
