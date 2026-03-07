@@ -3,12 +3,12 @@ import anthropic
 import asyncio
 
 from pydantic import ValidationError
-from .config import MODEL, MAX_TOKENS
+from .config import MODEL, MAX_TOKENS, TEMPERATURE
 from .models import OriginalTicket, ClassifiedTicket
 from .logger import logger
 
 # Call the AI agent to classify the ticket
-async def call_ai_agent(model, max_tokens, system_prompt, original_ticket):
+async def call_ai_agent(model, max_tokens, temperature, system_prompt, original_ticket):
     # Initialize the Anthropic client and send the classification request
     client = anthropic.AsyncAnthropic()
     # Call the AI model to classify the ticket
@@ -16,6 +16,7 @@ async def call_ai_agent(model, max_tokens, system_prompt, original_ticket):
         message = await client.messages.create(
             model=model,
             max_tokens=max_tokens,
+            temperature=temperature,
             system=system_prompt,
             messages=[
                 {
@@ -85,7 +86,7 @@ async def classify_ticket(ticket) -> OriginalTicket:
         original_ticket = OriginalTicket(**ticket)
 
         # Call the AI model to classify the ticket
-        classified_ticket = await call_ai_agent(MODEL, MAX_TOKENS, system_prompt, original_ticket)
+        classified_ticket = await call_ai_agent(MODEL, MAX_TOKENS, TEMPERATURE, system_prompt, original_ticket)
         try:
             # Parse the AI response and combine it with the original ticket data
             classified_ticket = json.loads(classified_ticket)
