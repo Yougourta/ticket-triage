@@ -4,13 +4,14 @@ from src.file_handler import load_tickets, save_classified_tickets
 from src.config import MODEL, MAX_TOKENS, INPUT_FILE, OUTPUT_FILE, LOG_LEVEL
 from src.classifier import classify_ticket
 from src.logger import logger
+from src.agent import run_agent
 
 async def main():
     # Read the original tickets from the input file, classify them, and save the results to the output file
     tickets = load_tickets(INPUT_FILE)
 
     # Classify each ticket and save the results
-    classification_tasks = [classify_ticket(ticket) for ticket in tickets]
+    classification_tasks = [run_agent(ticket) for ticket in tickets]
     classified_tickets = await asyncio.gather(*classification_tasks)
     # Save the classified tickets to the output file
     save_classified_tickets(OUTPUT_FILE, classified_tickets)

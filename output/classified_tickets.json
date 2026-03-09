@@ -12,7 +12,7 @@
         "ai_escalate": true,
         "ai_confidence": 0.92,
         "ai_processed_at": "2026-03-03T08:30:00Z",
-        "ai_reasoning": "This ticket clearly describes an access issue with multiple compounding factors: login failure, non-receipt of password reset email, and an imminent payment deadline. The combination of authentication failure and time-sensitive financial obligation justifies High priority classification. The confidence score of 0.92 reflects the unambiguous nature of the access problem, though escalation is recommended due to the critical business impact (missed payment) and the need for immediate human intervention to resolve the email delivery issue and prevent service disruption."
+        "ai_reasoning": "This ticket clearly describes an access issue with multiple compounding factors: login failure, non-receipt of password reset email, and an imminent payment deadline. The combination of authentication problems and time-sensitive financial obligation justifies High priority classification. The confidence score of 0.92 reflects the unambiguous nature of the access category and the clear urgency indicators. Escalation to a human agent is recommended to expedite resolution and prevent potential service disruption and missed payment consequences."
     },
     {
         "id": "PROJ-002",
@@ -23,11 +23,11 @@
         "type": "Support",
         "ai_category": "Other",
         "ai_priority": "Medium",
-        "ai_summary": "User requests delivery address update for order shipping tomorrow",
+        "ai_summary": "Customer requests delivery address update for order shipping tomorrow",
         "ai_escalate": true,
         "ai_confidence": 0.65,
         "ai_processed_at": "2026-03-03T09:15:00Z",
-        "ai_reasoning": "This ticket does not clearly fit the CCaaS tools specialist domain (Odigo, Ring Central, SightCall, etc.) as it appears to be a general customer service request related to order management rather than communication platform issues. The request is straightforward with a time-sensitive element (shipping tomorrow), warranting Medium priority. However, confidence is below 0.7 due to ambiguity about whether this ticket should be routed to the CCaaS support team at all, as it seems to be a general e-commerce/logistics inquiry. The ticket should be reviewed to ensure proper routing to the appropriate support department."
+        "ai_reasoning": "This ticket does not clearly fit the CCaaS tools specialist domain (Odigo, Ring Central, SightCall, etc.) as it appears to be a general customer service request related to order management rather than communication platform issues. The request is straightforward with a time-sensitive element (shipping tomorrow), warranting Medium priority. However, confidence is below 0.7 due to ambiguity about whether this ticket should be routed to the CCaaS support team at all, as it seems to be a general e-commerce/logistics inquiry. The low confidence triggers escalation consideration, but given the routine nature and clear resolution path, escalation is not strictly necessary if proper routing procedures are in place."
     },
     {
         "id": "PROJ-003",
@@ -72,6 +72,6 @@
         "ai_escalate": false,
         "ai_confidence": 0.92,
         "ai_processed_at": "2026-03-03T14:00:00Z",
-        "ai_reasoning": "This ticket is clearly a feature request rather than a support issue related to access, billing, or technical problems. The description indicates a non-urgent enhancement request with multiple user interest. There is no immediate impact on service delivery, no blocking issue, and no time-sensitive matter. The high confidence score (0.92) reflects the unambiguous nature of this classification as a feature request that does not require escalation or immediate action. This should be routed to the product development team for consideration in future releases."
+        "ai_reasoning": "This ticket is clearly a feature request rather than a support issue related to access, billing, or technical problems. The request is non-urgent and does not impact current system functionality or user operations. While the reporter mentions multiple user requests, there is no indication of system failure, payment issues, or access problems. The low priority and 'Other' category classification are appropriate as this is a product enhancement suggestion. The high confidence score (0.92) reflects the unambiguous nature of this being a feature request with no urgency or escalation requirements."
     }
 ]

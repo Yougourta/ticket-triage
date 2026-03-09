@@ -1,41 +1,27 @@
 import json
-import anthropic
 import asyncio
-
+from typing import TypedDict
 from pydantic import ValidationError
-from .config import MODEL, MAX_TOKENS, TEMPERATURE
-from .models import OriginalTicket, ClassifiedTicket
-from .logger import logger
+from langgraph.graph import StateGraph, START, END
+from src.models import OriginalTicket, ClassifiedTicket
+from src.classifier import call_ai_agent
+from src.config import MODEL, MAX_TOKENS, TEMPERATURE
+from src.logger import logger
 
-# Call the AI agent to classify the ticket
-async def call_ai_agent(model, max_tokens, temperature, system_prompt, original_ticket):
-    # Initialize the Anthropic client and send the classification request
-    client = anthropic.AsyncAnthropic()
-    # Call the AI model to classify the ticket
+class TicketState(TypedDict):
+    ticket: dict
+    original: OriginalTicket
+    result: dict | None
+    error: str | None
+
+def validate_ticket(state: TicketState) -> TicketState:
     try:
-        message = await client.messages.create(
-            model=model,
-            max_tokens=max_tokens,
-            temperature=temperature,
-            system=system_prompt,
-            messages=[
-                {
-                    "role": "user",
-                    "content": original_ticket.model_dump_json()
-                },
-                {
-                    "role": "assistant",
-                    "content": "{"
-                }
-            ]
-        )
-        return "{" + message.content[0].text
-    except Exception as e:   
-        logger.error(f"Error calling AI agent: {e}")
-        return None
+        original = OriginalTicket(**state['ticket'])
+        return {"original": original, "error": None}
+    except ValidationError as e:
+        return {"error": str(e)}
     
-# Validate the JIRA tickets
-async def classify_ticket(ticket) -> OriginalTicket:
+async def classify_with_claude(state: TicketState) -> TicketState:
     system_prompt = """
         You are a support ticket classification agent working for TotalEnergies Electricité & Gaz France as a CCaaS tools specialist (Odigo, Ring Central, SightCall, etc.). 
         Your task is to analyze incoming support tickets and classify them based on their content. 
@@ -83,47 +69,41 @@ async def classify_ticket(ticket) -> OriginalTicket:
             "ai_reasoning": "explanation of the reasoning behind the classification and prioritization decisions"
         }
     """
+    classified_ticket = await call_ai_agent(MODEL, MAX_TOKENS, TEMPERATURE, system_prompt, state['original'])
+    if classified_ticket:
+        return {"result": json.loads(classified_ticket), "error": None}
+    else:
+        return {"result": None, "error": "Failed to classify ticket with AI agent."}
+    
+def check_confidence(state: TicketState) -> TicketState:
+    classified_ticket = state["ticket"] | state["result"]
+    if classified_ticket["ai_confidence"] < 0.7:
+        classified_ticket["ai_escalate"] = True
+    return {"result": classified_ticket, "error": None}
 
+def save_result(state: TicketState) -> TicketState:
     try:
-        # Validate and parse the tickets using Pydantic
-        original_ticket = OriginalTicket(**ticket)
-
-        # Call the AI model to classify the ticket
-        classified_ticket = await call_ai_agent(MODEL, MAX_TOKENS, TEMPERATURE, system_prompt, original_ticket)
-        try:
-            # Parse the AI response and combine it with the original ticket data
-            classified_ticket = json.loads(classified_ticket)
-            classified_ticket["id"] = original_ticket.id
-            classified_ticket["summary"] = original_ticket.summary
-            classified_ticket["description"] = original_ticket.description
-            classified_ticket["reporter"] = original_ticket.reporter
-            classified_ticket["created_at"] = original_ticket.created_at
-            classified_ticket["type"] = original_ticket.type
-            # If confidence is below 0.7, set escalate to true
-            if classified_ticket["ai_confidence"] < 0.7:
-                classified_ticket["ai_escalate"] = True
-            # Validate the classification result and return a structured ticket
-            return ClassifiedTicket(**classified_ticket).model_dump(mode="json")
-        except ValidationError as e:
-            logger.error(f"Error validating classification: {e}")
-            logger.error(f"Raw classification data: {classified_ticket}")
-            return {
-                "id": original_ticket.id,
-                "summary": original_ticket.summary,
-                "description": original_ticket.description,
-                "reporter": original_ticket.reporter,
-                "created_at": original_ticket.created_at,
-                "type": "Other",
-                "ai_category": "Other",
-                "ai_priority": "Low",
-                "ai_summary": "Unable to classify ticket",
-                "ai_escalate": False,
-                "ai_confidence": 0.0,
-                "ai_processed_at": None,
-                "ai_reasoning": "The AI response could not be validated against the expected format."
-            }
+        result = ClassifiedTicket(**state["result"])
+        return {"result": result.model_dump(mode="json"), "error": None}
     except ValidationError as e:
-        logger.error(f"Error validating ticket: {e}")
-        logger.error(f"Raw ticket data: {ticket}")
-        return dict | None
+        return {"result": None, "error": str(e)}
+    
+def build_graph():
+    graph = StateGraph(TicketState)
 
+    graph.add_node("validate_ticket", validate_ticket)
+    graph.add_node("classify_with_claude", classify_with_claude)
+    graph.add_node("check_confidence", check_confidence)
+    graph.add_node("save_result", save_result)
+
+    graph.add_edge(START, "validate_ticket")
+    graph.add_edge("validate_ticket", "classify_with_claude")
+    graph.add_edge("classify_with_claude", "check_confidence")
+    graph.add_edge("check_confidence", "save_result")
+
+    return graph.compile()
+
+async def run_agent(ticket: dict) -> dict:
+    graph = build_graph()
+    result = await graph.ainvoke({"ticket": ticket, "original": None, "result": None, "error": None})
+    return result["result"]
