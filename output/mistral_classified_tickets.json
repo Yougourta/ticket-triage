@@ -1,0 +1,47 @@
+[
+    {
+        "ai_category": "Access",
+        "ai_priority": "High",
+        "ai_summary": "User unable to login; password reset email not received, payment due tonight",
+        "ai_escalate": true,
+        "ai_confidence": 0.87,
+        "ai_processed_at": "2026-03-03T08:30:00Z",
+        "ai_reasoning": "The ticket describes a clear access issue with a high urgency due to the upcoming payment deadline, leading to a high confidence score. However, since the confidence is below 0.9, escalation is recommended to ensure timely resolution."
+    },
+    {
+        "ai_category": "Billing",
+        "ai_priority": "Medium",
+        "ai_summary": "Customer requests to update delivery address before next order ships tomorrow",
+        "ai_escalate": false,
+        "ai_confidence": 0.95,
+        "ai_processed_at": "2026-03-03T09:15:00Z",
+        "ai_reasoning": "The ticket describes a request to update a billing-related detail (delivery address) and does not indicate any urgency or impact that would require escalation. The confidence score is high due to the clear nature of the request."
+    },
+    {
+        "ai_category": "Technical",
+        "ai_priority": "High",
+        "ai_summary": "Application crashing on login screen for 3 days, user threatens to cancel subscription",
+        "ai_escalate": true,
+        "ai_confidence": 0.95,
+        "ai_processed_at": "2026-03-03T10:00:00Z",
+        "ai_reasoning": "The ticket describes a technical issue with a high priority due to the user threatening to cancel their subscription and the issue persisting for multiple days, leading to a high confidence score."
+    },
+    {
+        "ai_category": "Billing",
+        "ai_priority": "High",
+        "ai_summary": "Invoice amount incorrect; 150 EUR shown instead of 99 EUR",
+        "ai_escalate": true,
+        "ai_confidence": 0.95,
+        "ai_processed_at": "2026-03-03T11:30:00Z",
+        "ai_reasoning": "The ticket describes a clear billing issue with a high urgency due to the incorrect invoice amount, leading to a high confidence score."
+    },
+    {
+        "ai_category": "Technical",
+        "ai_priority": "Medium",
+        "ai_summary": "Request for dark mode feature by multiple users",
+        "ai_escalate": false,
+        "ai_confidence": 0.95,
+        "ai_processed_at": "2026-03-03T14:00:00Z",
+        "ai_reasoning": "The ticket describes a feature request, which falls under the Technical category. The priority is medium as it involves multiple users. The confidence score is high due to the clear request for a dark mode feature."
+    }
+]
