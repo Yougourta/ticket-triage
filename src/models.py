@@ -17,3 +17,4 @@ class ClassifiedTicket(OriginalTicket):
     ai_escalate: bool = Field(..., description="Whether the ticket should be escalated based on AI triage system")
     ai_confidence: float = Field(..., ge=0.0, le=1.0, description="Confidence score of the AI triage system's categorization and prioritization")
     ai_processed_at: datetime = Field(..., description="Timestamp of when the ticket was processed by the AI triage system")
+    ai_reasoning : str = Field(..., description="Reasoning provided by the AI triage system for its categorization and prioritization decisions")

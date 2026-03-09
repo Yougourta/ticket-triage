@@ -46,6 +46,7 @@ async def classify_ticket(ticket) -> OriginalTicket:
             - 0.9+ : unambiguous, clear category and priority
             - 0.7-0.9 : likely classification but some ambiguity
             - below 0.7 : set "ai_escalate" to true regardless of content
+        Always explain the reasoning behind your classification and prioritization decisions.
         Your response should be a valid JSON object containing the following fields: ai_category, ai_priority, ai_summary, ai_escalate, ai_confidence, and ai_processed_at. 
         Ensure that your response strictly adheres to this format and does not include any additional text or markdown.
         
@@ -65,7 +66,8 @@ async def classify_ticket(ticket) -> OriginalTicket:
             "ai_summary": "User unable to login; password reset email not received, payment due tonight",
             "ai_escalate": true,
             "ai_confidence": 0.87,
-            "ai_processed_at": "2026-03-03T08:30:00Z"
+            "ai_processed_at": "2026-03-03T08:30:00Z",
+            "ai_reasoning": "The ticket describes a clear access issue with a high urgency due to the upcoming payment deadline, leading to a high confidence score. However, since the confidence is below 0.9, escalation is recommended to ensure timely resolution."
         }
 
         Here is the required format for your response:
@@ -77,7 +79,8 @@ async def classify_ticket(ticket) -> OriginalTicket:
             "ai_summary": "one sentence between 10 and 200 characters",
             "ai_escalate": true|false,
             "ai_confidence": 0.0 to 1.0,
-            "ai_processed_at": "ISO 8601 timestamp"
+            "ai_processed_at": "ISO 8601 timestamp",
+            "ai_reasoning": "explanation of the reasoning behind the classification and prioritization decisions"
         }
     """
 
@@ -116,7 +119,8 @@ async def classify_ticket(ticket) -> OriginalTicket:
                 "ai_summary": "Unable to classify ticket",
                 "ai_escalate": False,
                 "ai_confidence": 0.0,
-                "ai_processed_at": None
+                "ai_processed_at": None,
+                "ai_reasoning": "The AI response could not be validated against the expected format."
             }
     except ValidationError as e:
         logger.error(f"Error validating ticket: {e}")
