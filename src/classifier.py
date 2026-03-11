@@ -8,7 +8,7 @@ from .models import OriginalTicket, ClassifiedTicket
 from .logger import logger
 
 # Call the AI agent to classify the ticket
-async def call_ai_agent(model, max_tokens, temperature, system_prompt, original_ticket):
+async def call_ai_agent(model, max_tokens, temperature, system_prompt, ticket):
     # Initialize the Anthropic client and send the classification request
     client = anthropic.AsyncAnthropic()
     # Call the AI model to classify the ticket
@@ -21,7 +21,7 @@ async def call_ai_agent(model, max_tokens, temperature, system_prompt, original_
             messages=[
                 {
                     "role": "user",
-                    "content": original_ticket.model_dump_json()
+                    "content": ticket.model_dump_json() if isinstance(ticket, OriginalTicket) else json.dumps(ticket)
                 },
                 {
                     "role": "assistant",
@@ -67,7 +67,7 @@ async def classify_ticket(ticket) -> OriginalTicket:
             "ai_escalate": true,
             "ai_confidence": 0.87,
             "ai_processed_at": "2026-03-03T08:30:00Z",
-            "ai_reasoning": "The ticket describes a clear access issue with a high urgency due to the upcoming payment deadline, leading to a high confidence score. However, since the confidence is below 0.9, escalation is recommended to ensure timely resolution."
+            "ai_reasoning": "The ticket describes a clear access issue with a high urgency due to the upcoming payment deadline, leading to a high confidence score. However, since the confidence is below 0.9, escalation is recommended to ensure timely resolution.",
         }
 
         Here is the required format for your response:
